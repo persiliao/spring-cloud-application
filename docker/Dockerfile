@@ -28,8 +28,6 @@ WORKDIR /echo-service
 
 ADD ./echo-service.jar /echo-service/echo-service.jar
 
-EXPOSE ${ECHO_SERVICE_PORT}
-
 CMD ["-Djava.security.egd=file:/dev/./urandom", "-jar", "/echo-service/echo-service.jar"]
 
 ENTRYPOINT ["java"]
