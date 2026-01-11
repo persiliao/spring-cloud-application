@@ -23,9 +23,6 @@ spring:
           - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 
 management:
-  endpoint:
-    gateway:
-      enabled: true
   endpoints:
     web:
       exposure:
