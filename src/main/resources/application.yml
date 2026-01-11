@@ -1,0 +1,32 @@
+server:
+  port: ${ECHO_SERVICE_PORT:8889}
+
+spring:
+  application:
+    name: ${ECHO_SERVICE_APPLICATION_NAME:echo-service}
+  profiles:
+    active: ${ECHO_SERVICE_PROFILES_ACTIVE:dev}
+  config:
+    import:
+      - optional:nacos:${ECHO_SERVICE_APPLICATION_NAME:echo-service}-${ECHO_SERVICE_PROFILES_ACTIVE:dev}.${ECHO_SERVICE_CONFIG_FILE_EXTENSION:yml}?refreshEnabled=true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ECHO_SERVICE_DISCOVERY_SERVER:127.0.0.1:8848}
+        namespace: ${ECHO_SERVICE_DISCOVERY_NAMESPACE:public}
+      config:
+        server-addr: ${ECHO_SERVICE_CONFIG_SERVER:127.0.0.1:8848}
+        namespace: ${ECHO_SERVICE_CONFIG_NAMESPACE:public}
+        name: ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        file-extension: ${ECHO_SERVICE_CONFIG_FILE_EXTENSION:yml}
+        shared-configs:
+          - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
